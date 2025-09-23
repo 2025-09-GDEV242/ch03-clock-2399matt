@@ -17,6 +17,7 @@ public class ClockDisplay
     private NumberDisplay hours;
     private NumberDisplay minutes;
     private String displayString;    // simulates the actual display
+    private String indicator;
     
     /**
      * Constructor for ClockDisplay objects. This constructor 
@@ -24,8 +25,10 @@ public class ClockDisplay
      */
     public ClockDisplay()
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(13);
         minutes = new NumberDisplay(60);
+        indicator = " AM";
+        hours.setValue(12);
         updateDisplay();
     }
 
@@ -34,10 +37,11 @@ public class ClockDisplay
      * creates a new clock set at the time specified by the 
      * parameters.
      */
-    public ClockDisplay(int hour, int minute)
+    public ClockDisplay(int hour, int minute, String indicator)
     {
-        hours = new NumberDisplay(24);
+        hours = new NumberDisplay(13);
         minutes = new NumberDisplay(60);
+        this.indicator = indicator;
         setTime(hour, minute);
     }
 
@@ -50,6 +54,12 @@ public class ClockDisplay
         minutes.increment();
         if(minutes.getValue() == 0) {  // it just rolled over!
             hours.increment();
+            if(hours.getValue() == 0){
+                hours.setValue(1);
+            }
+            if(hours.getValue() == 12){
+                indicator = (indicator.equals(" AM")) ? " PM" : " AM";
+            }
         }
         updateDisplay();
     }
@@ -60,6 +70,9 @@ public class ClockDisplay
      */
     public void setTime(int hour, int minute)
     {
+        if(hour == 0){
+            hour = 12;
+        }
         hours.setValue(hour);
         minutes.setValue(minute);
         updateDisplay();
@@ -78,7 +91,7 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
-        displayString = hours.getDisplayValue() + ":" + 
-                        minutes.getDisplayValue();
+        displayString = hours.getValue() + ":" + 
+                        minutes.getDisplayValue() + indicator;
     }
 }
