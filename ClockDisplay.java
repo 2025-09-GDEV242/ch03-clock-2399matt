@@ -5,6 +5,8 @@
  * range of the clock is 00:00 (midnight) to 23:59 (one minute before 
  * midnight).
  * 
+ * 24-hour internal branch
+ * 
  * The clock display receives "ticks" (via the timeTick method) every minute
  * and reacts by incrementing the display. This is done in the usual clock
  * fashion: the hour increments when the minutes roll over to zero.
@@ -78,6 +80,7 @@ public class ClockDisplay
      */
     private void updateDisplay()
     {
+        // Only really need to modify the display method, internals are fine.
         String indicator = (hours.getValue() >=12) ? " PM" : " AM";
         int currHour = hours.getValue() % 12;
         if(currHour == 0){
